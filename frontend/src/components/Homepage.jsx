@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
   RiAddBoxFill,
   RiDeleteBin2Fill,
@@ -10,23 +11,43 @@ import {
   RiHeartFill,
   RiInformation2Fill,
 } from "@remixicon/react";
+import { useQueries } from "@tanstack/react-query";
 
 const Homepage = () => {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get("http://localhost:5555/books")
-      .then((response) => {
-        setBooks(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
+
+  
+  //traditional method
+  // const [books, setBooks] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axios
+  //     .get("http://localhost:5555/books")
+  //     .then((response) => {
+  //       setBooks(response.data.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoading(false);
+  //     });
+  // }, []);
+
+
+  //using tanStack React Query
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['data'],
+    queryFn: async () => {
+      try {
+        const response = await axios.get("http://localhost:5555/books");
+        return response.data.data;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+  });
+
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">
@@ -38,7 +59,7 @@ const Homepage = () => {
           Add Books <RiFileAddLine size={48} />
         </Link>
       </div>
-      {loading ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <table className="w-full border-spacing-2">
@@ -55,7 +76,7 @@ const Homepage = () => {
             </tr>
           </thead>
           <tbody>
-            {books.map((item, index) => (
+            {data.map((item, index) => (
               <tr key={index} className="h-8">
                 <td className="border border-slate-700 rounded-md text-center">
                   {index + 1}
