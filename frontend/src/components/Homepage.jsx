@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import {
   RiAddBoxFill,
   RiDeleteBin2Fill,
@@ -12,8 +12,7 @@ import {
   RiInformation2Fill,
 } from "@remixicon/react";
 
-const Homepage = () => {
-  //traditional method
+ //traditional method
   // const [books, setBooks] = useState([]);
   // const [loading, setLoading] = useState(false);
   // useEffect(() => {
@@ -30,9 +29,11 @@ const Homepage = () => {
   //     });
   // }, []);
 
-
+const Homepage = () => {
+ 
+  const queryClient = new QueryClient()
   //using tanStack React Query
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['data'],
     queryFn: async () => {
       try {
@@ -44,6 +45,20 @@ const Homepage = () => {
     },
   });
 
+  const deleteBook = useMutation({
+    mutationFn: (id) => axios.delete(`http://localhost:5555/books/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries("books");
+      refetch()
+    },
+  });
+  const handleDelete = async (id) => {
+    try {
+      await deleteBook.mutateAsync(id);
+    } catch (error) {
+      console.error("Error deleting book:", error);
+    }
+  };
 
   return (
     <div className="p-4">
@@ -98,9 +113,9 @@ const Homepage = () => {
                     <Link to={`/books/edit/${item._id}`}>
                       <RiEdit2Fill />
                     </Link>
-                    <Link to={`/books/delete/${item._id}`}>
+                    <button onClick={() => handleDelete(item._id)}>
                       <RiDeleteBin2Fill />
-                    </Link>
+                    </button>
                   </div>
                 </td>
               </tr>
