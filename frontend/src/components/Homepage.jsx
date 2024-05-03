@@ -33,7 +33,7 @@ const Homepage = () => {
  
   const queryClient = new QueryClient()
   //using tanStack React Query
-  const { data, isLoading, isError, refetch } = useQuery({
+  const { data, isLoading, isError, refetch, isSuccess } = useQuery({
     queryKey: ['data'],
     queryFn: async () => {
       try {
@@ -123,6 +123,7 @@ const Homepage = () => {
           </tbody>
         </table>
       )}
+      {deleteBook.isSuccess ? "book deleted" : null}
     </div>
   );
 };
