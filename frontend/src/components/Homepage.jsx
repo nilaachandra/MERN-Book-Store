@@ -11,11 +11,8 @@ import {
   RiHeartFill,
   RiInformation2Fill,
 } from "@remixicon/react";
-import { useQueries } from "@tanstack/react-query";
 
 const Homepage = () => {
-
-  
   //traditional method
   // const [books, setBooks] = useState([]);
   // const [loading, setLoading] = useState(false);
