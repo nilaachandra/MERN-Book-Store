@@ -12,29 +12,28 @@ import {
   RiInformation2Fill,
 } from "@remixicon/react";
 
- //traditional method
-  // const [books, setBooks] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // useEffect(() => {
-  //   setLoading(true);
-  //   axios
-  //     .get("http://localhost:5555/books")
-  //     .then((response) => {
-  //       setBooks(response.data.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // }, []);
+//traditional method
+// const [books, setBooks] = useState([]);
+// const [loading, setLoading] = useState(false);
+// useEffect(() => {
+//   setLoading(true);
+//   axios
+//     .get("http://localhost:5555/books")
+//     .then((response) => {
+//       setBooks(response.data.data);
+//       setLoading(false);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       setLoading(false);
+//     });
+// }, []);
 
 const Homepage = () => {
- 
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
   //using tanStack React Query
   const { data, isLoading, isError, refetch, isSuccess } = useQuery({
-    queryKey: ['data'],
+    queryKey: ["data"],
     queryFn: async () => {
       try {
         const response = await axios.get("http://localhost:5555/books");
@@ -49,7 +48,7 @@ const Homepage = () => {
     mutationFn: (id) => axios.delete(`http://localhost:5555/books/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries("books");
-      refetch()
+      refetch();
     },
   });
   const handleDelete = async (id) => {
@@ -61,8 +60,8 @@ const Homepage = () => {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center">
+    <div className="p-4 w-full justify-between items-center">
+      <div className=" w-full flex justify-between items-center">
         <h1 className="text-3xl my-8">Books List</h1>
         <Link
           to="books/create"
@@ -74,38 +73,26 @@ const Homepage = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <table className="w-full border-spacing-2">
-          <thead>
-            <tr>
-              <th className="border border-slate-600 rounded-md">Sl.No</th>
-              <th className="border border-slate-600 rounded-md">Title</th>
-              <th className="border border-slate-600 rounded-md">Author</th>
-              <th className="border border-slate-600 rounded-md">Publisher</th>
-              <th className="border border-slate-600 rounded-md">
-                Publish Year
-              </th>
-              <th className="border border-slate-600 rounded-md">Operations</th>
+        <table className="w-full bg-white p-4 rounded-lg shadow-lg">
+          <thead className="border-b border-zinc-400 text-black p-">
+            <tr className="p-4">
+              <th className="p-4">Sl.No</th>
+              <th className="p-4">Title</th>
+              <th className="p-4">Author</th>
+              <th className="p-4 ">Publisher</th>
+              <th className="p-4 ">Publish Year</th>
+              <th className="p-4">Operations</th>
             </tr>
           </thead>
           <tbody>
             {data.map((item, index) => (
               <tr key={index} className="h-8">
-                <td className="border border-slate-700 rounded-md text-center">
-                  {index + 1}
-                </td>
-                <td className="border border-slate-700 rounded-md text-center">
-                  {item.title}
-                </td>
-                <td className="border border-slate-700 rounded-md text-center">
-                  {item.author}
-                </td>
-                <td className="border border-slate-700 rounded-md text-center">
-                  {item.publisher}
-                </td>
-                <td className="border border-slate-700 rounded-md text-center">
-                  {item.publishYear}
-                </td>
-                <td className="border border-slate-700 rounded-md text-center">
+                <td className="  text-center">{index + 1}</td>
+                <td className="p-4 text-center">{item.title}</td>
+                <td className="p-4 text-center">{item.author}</td>
+                <td className="p-4 text-center">{item.publisher}</td>
+                <td className="p-4 text-center">{item.publishYear}</td>
+                <td className="p-4  text-center">
                   <div className="flex justify-center gap-x-4">
                     <Link to={`/books/details/${item._id}`}>
                       <RiInformation2Fill />
