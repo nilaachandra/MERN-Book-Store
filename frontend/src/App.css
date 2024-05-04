@@ -1,3 +1,6 @@
 body{
-    background-color: #dfdfdf;
+    background-color: #fef5f5;
+}
+tr:nth-child(even){
+    background-color: #b9b7b7;
 }
