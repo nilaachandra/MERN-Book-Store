@@ -69,7 +69,7 @@ const Homepage = () => {
       setEditingBook(null);
       refetch();
       setEditModalOpen(false);
-      toast.success("Book Update Successfull", {
+      toast.success("Book Update Successful", {
         position: "top-center",
         richColors: true,
         duration: 2000,
@@ -129,65 +129,66 @@ const Homepage = () => {
   };
 
   return (
-    <div className="p-4 w-full justify-between items-center">
-      <div className=" w-full flex justify-between items-center">
+    <div className=" w-full justify-between items-center">
+      <div className="w-full flex justify-between items-center">
         <h1 className="text-3xl my-8">Books List</h1>
         <button
           onClick={handleAddBookClick}
-          className="flex gap-3 justify-center items-center"
+          className="flex gap-3 justify-center items-center md:ml-auto"
         >
           Add Books <RiFileAddLine size={48} />
         </button>
       </div>
       {isLoading ? (
-        <Loader />
+        <Loader type='spin' color='#008000'/>
       ) : (
-        <table className="w-full bg-white p-4 rounded-lg overflow-hidden shadow-xl ">
-          <thead className="border-b border-zinc-400 bg-[#b9b7b7] text-black p-3 rounded-lg">
-            <tr className="p-3 bg-[#b9b7b7] rounded-lg">
-              <th className="p-3 text-left">Sl.No</th>
-              <th className="p-3 text-left">Title</th>
-              <th className="p-3 text-left">Author</th>
-              <th className="p-3 text-left ">Publisher</th>
-              <th className="p-3 text-left ">Publish Year</th>
-              <th className="p-3 text-left">Operations</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, index) => (
-              <tr key={index} className="h-8 font-semibold">
-                <td className="p-2">{index + 1}</td>
-                <td className="p-2">{item.title}</td>
-                <td className="p-2">{item.author}</td>
-                <td className="p-2">{item.publisher}</td>
-                <td className="p-2">{item.publishYear}</td>
-                <td className="p-2">
-                  <div className="flex items-center gap-x-4">
-                    {/* Pass book data to handleEditClick */}
-                    <button
-                      onClick={() => handleEditClick(item)}
-                      className="bg-green-700 px-4 py-1 rounded-md font-bold text-white hover:opacity-80 transition-all duration-300"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item._id, item.title)}
-                      className="bg-red-700 px-4 py-1 rounded-md font-bold text-white hover:opacity-80 transition-all duration-300"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
+        <div className="overflow-x-auto rounded-md">
+          <table className="w-full bg-white p-4 rounded-lg shadow-xl ">
+            <thead className="border-b border-zinc-400 bg-[#b9b7b7] text-black p-3 rounded-lg">
+              <tr className="p-3 bg-[#b9b7b7] rounded-lg">
+                <th className="p-3 text-left">Sl.No</th>
+                <th className="p-3 text-left">Title</th>
+                <th className="p-3 text-left">Author</th>
+                <th className="p-3 text-left ">Publisher</th>
+                <th className="p-3 text-left ">Publish Year</th>
+                <th className="p-3 text-left">Operations</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={index} className="h-8 font-semibold">
+                  <td className="p-2">{index + 1}</td>
+                  <td className="p-2">{item.title}</td>
+                  <td className="p-2">{item.author}</td>
+                  <td className="p-2">{item.publisher}</td>
+                  <td className="p-2">{item.publishYear}</td>
+                  <td className="p-2">
+                    <div className="flex items-center gap-x-4">
+                      <button
+                        onClick={() => handleEditClick(item)}
+                        className="bg-green-700 px-4 py-1 rounded-md font-bold text-white hover:opacity-80 transition-all duration-300"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item._id, item.title)}
+                        className="bg-red-700 px-4 py-1 rounded-md font-bold text-white hover:opacity-80 transition-all duration-300"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {/* Edit modal */}
       {editModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg w-[30%]">
+          <div className="bg-white p-8 rounded-lg w-full md:w-[90%] lg:w-[60%] xl:w-[40%]">
             <h2 className="text-xl font-bold mb-4">Edit Book</h2>
             <label>Title:</label>
             <input
@@ -238,7 +239,7 @@ const Homepage = () => {
       {/* Add modal */}
       {addModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg w-[30%]">
+          <div className="bg-white p-8 rounded-lg w-full md:w-[90%] lg:w-[60%] xl:w-[40%]">
             <h2 className="text-xl font-bold mb-4">Add Book</h2>
             <label>Title:</label>
             <input

@@ -1,11 +1,10 @@
 import React from 'react';
+import ReactLoading from 'react-loading';
 
-const Loader = () => {
-  return (
-    <div className="flex justify-center items-center mt-10">
-      <div className="w-16 h-16 border-t-4 border-blue-500 rounded-full animate-spin"></div>
-    </div>
-  );
-};
+const Loader = ({ type, color }) => (
+  <div className='w-full min-h-[40vh] flex justify-center items-center'>
+	<ReactLoading type={type} color={color} height={'5%'} width={'5%'} />
+  </div>
+);
 
 export default Loader;
