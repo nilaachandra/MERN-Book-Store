@@ -131,14 +131,15 @@ const Homepage = () => {
   return (
     <div className=" w-full justify-between items-center">
       <div className="w-full flex justify-between items-center">
-        <h1 className="text-3xl my-8">Books List</h1>
+        <h1 className="text-3xl my-8 font-bold">Books List</h1>
         <button
           onClick={handleAddBookClick}
-          className="flex gap-3 justify-center items-center md:ml-auto"
+          className="flex gap-3 justify-center items-center md:ml-auto font-bold"
         >
           Add Books <RiFileAddLine size={48} />
         </button>
       </div>
+      <h1 className="text-xl font-bold mb-3">Total Books: {isLoading ? <span>...</span> : <span>{data.length}</span>}</h1>
       {isLoading ? (
         <Loader type='spin' color='#008000'/>
       ) : (
