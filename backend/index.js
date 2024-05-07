@@ -15,7 +15,7 @@ app.use(express.json());
 // CORS configuration to allow requests from a specific origin with credentials
 app.use(
   cors({
-    origin: ["https://kitaabeinapi.vercel.app"],
+    origin: ["https://kitaabein.vercel.app/"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

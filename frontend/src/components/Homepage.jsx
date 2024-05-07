@@ -13,7 +13,7 @@ const Homepage = () => {
     queryKey: ["data"],
     queryFn: async () => {
       try {
-        const response = await axios.get("http://localhost:5555/books");
+        const response = await axios.get("https://kitaabeinapi.vercel.app/books");
         return response.data.data;
       } catch (error) {
         throw new Error(error.message);
@@ -23,7 +23,7 @@ const Homepage = () => {
 
   // Mutation for deleting a book
   const deleteBook = useMutation({
-    mutationFn: (id) => axios.delete(`http://localhost:5555/books/${id}`),
+    mutationFn: (id) => axios.delete(`https://kitaabeinapi.vercel.app/books/${id}`),
     onSuccess: () => {
       // Invalidate cache and refetch data after deletion
       queryClient.invalidateQueries("books");
@@ -60,7 +60,7 @@ const Homepage = () => {
   const handleSave = async () => {
     // Perform update mutation
     try {
-      await axios.put(`http://localhost:5555/books/${editingBook._id}`, {
+      await axios.put(`https://kitaabeinapi.vercel.app/books/${editingBook._id}`, {
         title: editedTitle,
         author: editedAuthor,
         publisher: editedPublisher,
@@ -101,7 +101,7 @@ const Homepage = () => {
   // Function to handle save new book
   const handleSaveNewBook = async () => {
     try {
-      await axios.post(`http://localhost:5555/books`, {
+      await axios.post(`https://kitaabeinapi.vercel.app/books`, {
         title: newTitle,
         author: newAuthor,
         publisher: newPublisher,
