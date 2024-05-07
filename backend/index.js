@@ -1,45 +1,42 @@
-import express, { response } from "express";
-import { PORT, mongodbURL } from "./config.js";
+import express from "express";
 import mongoose from "mongoose";
-import booksRoute from './routes/booksRoute.js'
-import cors from 'cors';
-import dotenv from 'dotenv'
+import booksRoute from "./routes/booksRoute.js";
+import cors from "cors";
+import dotenv from "dotenv";
+import { PORT, mongodbURL } from "./config.js";
+
 dotenv.config();
 
 const app = express();
 
-//middleware to parse requset body
+// Middleware to parse request body
 app.use(express.json());
 
-//Middleware for handling CORS Policy
-//option 1 : Allow all origins with default of Cors(*)
-app.use(cors())
+// CORS configuration to allow requests from a specific origin with credentials
+app.use(
+  cors({
+    origin: ["https://kitaabeinapi.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
-//option 2 : Allow Custom origins. It gives us flexibility
-// app.use(
-//   cors({
-//     origin: 'https://localhost:3000',
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowedHeaders: ['Content-Type']
-//   })
-// )
-
-//sending http request
+// Sending HTTP request
 app.get("/", (request, response) => {
   console.log(request);
   return response.status(234).send("Server Is Working Fine");
 });
 
-app.use('/books', booksRoute)
+app.use("/books", booksRoute);
 
-//mongodb connection
+// MongoDB connection
 mongoose
   .connect(mongodbURL)
   .then(() => {
-    console.log("Database Connection Succesfull");
-    //listener
+    console.log("Database Connection Successful");
+    // Listener
     app.listen(PORT, () => {
-      console.log(`app is listening to port: ${PORT}`);
+      console.log(`App is listening to port: ${PORT}`);
     });
   })
   .catch((error) => {
